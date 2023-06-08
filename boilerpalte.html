@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Blockly JavaScript Project</title>
+    <script src="https://unpkg.com/blockly/blockly.min.js"></script>
+</head>
+
+<body>
+    <h1>Blockly JavaScript Project</h1>
+
+    <!-- HTML container for the Blockly editor -->
+    <div id="blocklyDiv" style="height: 480px; width: 600px;"></div>
+
+    <!-- Toolbox definition -->
+    <xml id="toolbox" style="display: none;">
+        <block type="controls_if"></block>
+        <block type="controls_repeat_ext"></block>
+        <block type="logic_compare"></block>
+        <!-- Add more blocks here... -->
+    </xml>
+
+    <!-- Button to execute generated JavaScript code -->
+    <button onclick="runCode()">Run Code</button>
+
+    <!-- Display area for generated JavaScript code -->
+    <pre id="codeDisplay"></pre>
+
+    <script>
+        // Create a workspace
+        var workspace = Blockly.inject('blocklyDiv', {
+            toolbox: document.getElementById('toolbox')
+        });
+
+        // Function to run the generated JavaScript code
+        function runCode() {
+            // Generate JavaScript code from the workspace
+            var code = Blockly.JavaScript.workspaceToCode(workspace);
+
+            // Display the generated code
+            document.getElementById('codeDisplay').textContent = code;
+
+            // Execute the generated code
+            eval(code);
+        }
+    </script>
+</body>
+
+</html>

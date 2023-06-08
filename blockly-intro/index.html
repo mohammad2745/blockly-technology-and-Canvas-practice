@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Blockly JavaScript Project</title>
+    <script src="https://unpkg.com/blockly/blockly.min.js"></script>
+</head>
+
+<body>
+    <h1>Blockly JavaScript Project</h1>
+
+    <!-- HTML container for the Blockly editor -->
+    <div id="blocklyDiv" style="height: 480px; width: 600px;"></div>
+
+    <!-- Toolbox definition -->
+    <xml id="toolbox" style="display: none;">
+        <block type="controls_if"></block>
+        <block type="controls_repeat_ext"></block>
+        <block type="logic_compare"></block>
+        <!-- Add more blocks here... -->
+    </xml>
+
+    <!-- Button to execute generated JavaScript code -->
+    <button onclick="runCode()">Run Code</button>
+
+    <!-- Display area for generated JavaScript code -->
+    <pre id="codeDisplay"></pre>
+
+    <script src="blockly.js"></script>
+</body>
+
+</html>
