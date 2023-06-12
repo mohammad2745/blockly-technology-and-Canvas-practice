@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Check If Blocks Are Not Connected</title>
+    <style>
+        #blocklyDiv {
+            height: 400px;
+            width: 400px;
+        }
+    </style>
+    <script src="https://unpkg.com/blockly/blockly.min.js"></script>
+</head>
+
+<body>
+    <div id="blocklyDiv"></div>
+
+    <script>
+        // Create the Blockly workspace
+        var workspace = Blockly.inject('blocklyDiv', {
+            toolbox: createToolbox()
+        });
+
+        // Define the toolbox
+        function createToolbox() {
+            var toolbox = `
+        <xml xmlns="https://developers.google.com/blockly/xml">
+          <block type="controls_if"></block>
+          <block type="math_number"></block>
+        </xml>
+      `;
+
+            return toolbox;
+        }
+
+        // Check if blocks are not connected
+        function checkBlocks() {
+            var topBlocks = workspace.getTopBlocks();
+            var notConnectedBlocks = [];
+
+            console.log("Top blocks: ", topBlocks);
+
+            topBlocks.forEach(function(block) {
+                if (!block.getNextBlock() && !block.getPreviousBlock()) {
+                    notConnectedBlocks.push(block);
+                }
+            });
+
+            if (notConnectedBlocks.length > 0) {
+                console.log("Not connected blocks:", notConnectedBlocks);
+            } else {
+                console.log("All blocks are connected.");
+            }
+        }
+
+        // Example usage: check if blocks are not connected when button is clicked
+        var checkButton = document.createElement('button');
+        checkButton.textContent = "Check Blocks";
+        checkButton.addEventListener('click', checkBlocks);
+        document.body.appendChild(checkButton);
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Blockly JavaScript Project</title>
+    <script src="https://unpkg.com/blockly/blockly.min.js"></script>
+</head>
+
+<body>
+    <h1>Blockly JavaScript Project</h1>
+
+    <!-- HTML container for the Blockly editor -->
+    <div id="blocklyDiv" style="height: 480px; width: 600px;"></div>
+
+    <!-- Vertical separator -->
+    <div style="display: flex; height: 480px;">
+        <div style="width: 50%; border-right: 1px solid #ccc;"></div>
+        <div style="width: 50%;"></div>
+    </div>
+
+    <!-- Button to generate and display JavaScript code -->
+    <button onclick="generateCode()">Generate Code</button>
+
+    <!-- Display area for generated JavaScript code -->
+    <pre id="codeDisplay"></pre>
+
+    <script>
+        var workspace;
+
+        // Function to initialize the Blockly workspace
+        function initializeWorkspace() {
+            workspace = Blockly.inject('blocklyDiv', {
+                toolbox: createToolbox()
+            });
+        }
+
+        // Function to create and return the toolbox definition
+        function createToolbox() {
+            var toolbox = document.createElement('xml');
+
+            // Create logic category and blocks
+            var logicCategory = document.createElement('category');
+            logicCategory.setAttribute('name', 'Logic');
+            logicCategory.setAttribute('colour', '#5C81A6');
+
+            var ifBlock = document.createElement('block');
+            ifBlock.setAttribute('type', 'controls_if');
+
+            var compareBlock = document.createElement('block');
+            compareBlock.setAttribute('type', 'logic_compare');
+
+            logicCategory.appendChild(ifBlock);
+            logicCategory.appendChild(compareBlock);
+
+            toolbox.appendChild(logicCategory);
+
+            // Return the created toolbox
+            return toolbox;
+        }
+
+        // Function to generate and display JavaScript code
+        function generateCode() {
+            // Generate JavaScript code from the workspace
+            var code = Blockly.JavaScript.workspaceToCode(workspace);
+
+            // Display the generated code
+            document.getElementById('codeDisplay').textContent = code;
+        }
+
+        // Initialize the Blockly workspace
+        initializeWorkspace();
+    </script>
+</body>
+
+</html>

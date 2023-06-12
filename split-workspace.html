@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Blockly Workspace with Heading</title>
+    <style>
+        #blocklyDiv {
+            height: 480px;
+            width: 100%;
+        }
+        
+        .workspace-heading {
+            font-size: 24px;
+            font-weight: bold;
+            padding: 10px;
+            background-color: #f0f0f0;
+        }
+    </style>
+    <script src="https://unpkg.com/blockly/blockly.min.js"></script>
+</head>
+
+<body>
+    <h1>Blockly Workspace with Heading</h1>
+
+    <div id="blocklyDiv"></div>
+
+    <script>
+        var workspace = Blockly.inject('blocklyDiv', {
+            toolbox: createToolbox()
+        });
+
+        // Add a heading to the workspace
+        var headingDiv = document.createElement('div');
+        headingDiv.className = 'workspace-heading';
+        headingDiv.textContent = 'My Workspace';
+        document.getElementById('blocklyDiv').insertBefore(headingDiv, workspace.svgGroup_);
+
+        function createToolbox() {
+            // Create and return the toolbox definition
+            var toolbox = document.createElement('xml');
+
+            // Define blocks for the toolbox
+            // ...
+
+            return toolbox;
+        }
+    </script>
+</body>
+
+</html>

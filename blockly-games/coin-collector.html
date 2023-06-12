@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Blockly Object Movement Game</title>
+    <style>
+        #blocklyDiv {
+            height: 400px;
+            width: 400px;
+        }
+        
+        #canvas {
+            border: 1px solid black;
+        }
+    </style>
+    <script src="https://unpkg.com/blockly/blockly.min.js"></script>
+</head>
+
+<body>
+    <div id="blocklyDiv"></div>
+    <canvas id="canvas" width="400" height="400"></canvas>
+
+    <script>
+        // Initialize the canvas and context
+        var canvas = document.getElementById("canvas");
+        var context = canvas.getContext("2d");
+
+        // Define the objects
+        var object1 = {
+            x: 100,
+            y: 100,
+            moveHorizontal: function(distance) {
+                this.x += distance;
+            },
+            moveVertical: function(distance) {
+                this.y += distance;
+            }
+        };
+
+        var object2 = {
+            x: 200,
+            y: 200,
+            moveHorizontal: function(distance) {
+                this.x += distance;
+            },
+            moveVertical: function(distance) {
+                this.y += distance;
+            }
+        };
+
+        // Update and render the game
+        function updateGame() {
+            // Clear the canvas
+            context.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Render object1
+            context.fillStyle = 'blue';
+            context.fillRect(object1.x, object1.y, 50, 50);
+
+            // Render object2
+            context.fillStyle = 'red';
+            context.fillRect(object2.x, object2.y, 50, 50);
+
+            // Request the next frame
+            requestAnimationFrame(updateGame);
+        }
+
+        // Create the Blockly workspace
+        var workspace = Blockly.inject('blocklyDiv', {
+            toolbox: createToolbox()
+        });
+
+        // Generate and execute code
+        function generateCode() {
+            var code = Blockly.JavaScript.workspaceToCode(workspace);
+
+            // Execute the generated code
+            eval(code);
+        }
+
+        // Define the toolbox
+        function createToolbox() {
+            var toolbox = `
+        <xml xmlns="https://developers.google.com/blockly/xml">
+          <block type="move_object" id="move_object">
+            <value name="object">
+              <shadow type="text">
+                <field name="TEXT">object1</field>
+              </shadow>
+            </value>
+            <value name="command">
+              <shadow type="text">
+                <field name="TEXT">moveHorizontal(10);</field>
+              </shadow>
+            </value>
+          </block>
+        </xml>
+      `;
+
+            return toolbox;
+        }
+
+        // Define the move_object custom block
+        Blockly.Blocks['move_object'] = {
+            init: function() {
+                this.appendValueInput("object")
+                    .setCheck("String")
+                    .appendField("Move object");
+                this.appendValueInput("command")
+                    .setCheck("String")
+                    .appendField("with command");
+                this.setInputsInline(true);
+                this.setPreviousStatement(true, null);
+                this.setNextStatement(true, null);
+                this.setColour(230);
+                this.setTooltip("");
+                this.setHelpUrl("");
+            }
+        };
+
+        Blockly.JavaScript['move_object'] = function(block) {
+            var value_object = Blockly.JavaScript.valueToCode(block, 'object', Blockly.JavaScript.ORDER_ATOMIC);
+            var value_command = Blockly.JavaScript.valueToCode(block, 'command', Blockly.JavaScript.ORDER_ATOMIC);
+
+            var code = `${value_object}.${value_command};\n`;
+
+            return code;
+        };
+
+        // Start the game loop
+        updateGame();
+    </script>
+</body>
+
+</html>
