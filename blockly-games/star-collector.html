@@ -2,62 +2,78 @@
 <html>
 
 <head>
-    <title>Check If Blocks Are Not Connected</title>
+    <title>Blockly Workspace Change</title>
     <style>
-        #blocklyDiv {
-            height: 400px;
+        .workspace {
             width: 400px;
+            height: 300px;
         }
     </style>
     <script src="https://unpkg.com/blockly/blockly.min.js"></script>
 </head>
 
 <body>
-    <div id="blocklyDiv"></div>
+    <div id="workspaceContainer" class="workspace"></div>
+    <button id="changeWorkspaceBtn">Change Workspace</button>
 
     <script>
-        // Create the Blockly workspace
-        var workspace = Blockly.inject('blocklyDiv', {
-            toolbox: createToolbox()
-        });
+        var workspace = null;
 
-        // Define the toolbox
+        // Initialize the default workspace
+        function initializeWorkspace() {
+            var toolbox = createToolbox();
+            workspace = Blockly.inject('workspaceContainer', {
+                toolbox: toolbox
+            });
+        }
+
+        // Create the toolbox XML
         function createToolbox() {
             var toolbox = `
         <xml xmlns="https://developers.google.com/blockly/xml">
-          <block type="controls_if"></block>
-          <block type="math_number"></block>
+          <category name="Logic" colour="210">
+            <block type="controls_if"></block>
+            <block type="logic_compare"></block>
+            <block type="logic_operation"></block>
+          </category>
+          <category name="Math" colour="230">
+            <block type="math_number"></block>
+            <block type="math_arithmetic"></block>
+          </category>
         </xml>
       `;
 
             return toolbox;
         }
 
-        // Check if blocks are not connected
-        function checkBlocks() {
-            var topBlocks = workspace.getTopBlocks();
-            var notConnectedBlocks = [];
+        // Create an alternate workspace content
+        function createAlternateWorkspace() {
+            var alternateWorkspaceXml = `
+        <xml xmlns="https://developers.google.com/blockly/xml">
+          <block type="text_print" x="50" y="50">
+            <value name="TEXT">
+              <shadow type="text">
+                <field name="TEXT">Hello, world!</field>
+              </shadow>
+            </value>
+          </block>
+        </xml>
+      `;
 
-            console.log("Top blocks: ", topBlocks);
+            // Clear the existing workspace
+            workspace.clear();
 
-            topBlocks.forEach(function(block) {
-                if (!block.getNextBlock() && !block.getPreviousBlock()) {
-                    notConnectedBlocks.push(block);
-                }
-            });
-
-            if (notConnectedBlocks.length > 0) {
-                console.log("Not connected blocks:", notConnectedBlocks);
-            } else {
-                console.log("All blocks are connected.");
-            }
+            // Inject the alternate workspace content
+            Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(alternateWorkspaceXml), workspace);
         }
 
-        // Example usage: check if blocks are not connected when button is clicked
-        var checkButton = document.createElement('button');
-        checkButton.textContent = "Check Blocks";
-        checkButton.addEventListener('click', checkBlocks);
-        document.body.appendChild(checkButton);
+        // Handle the button click event
+        document.getElementById('changeWorkspaceBtn').addEventListener('click', function() {
+            createAlternateWorkspace();
+        });
+
+        // Initialize the default workspace
+        initializeWorkspace();
     </script>
 </body>
 

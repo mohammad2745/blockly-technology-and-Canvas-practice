@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Dynamic Blockly Workspaces</title>
+    <style>
+        .workspace {
+            width: 400px;
+            height: 300px;
+        }
+    </style>
+    <script src="https://unpkg.com/blockly/blockly.min.js"></script>
+</head>
+
+<body>
+    <button onclick="showWorkspace(1)">Workspace 1</button>
+    <button onclick="showWorkspace(2)">Workspace 2</button>
+
+    <div id="workspace1" class="workspace"></div>
+    <div id="workspace2" class="workspace" style="display: none;"></div>
+
+    <script>
+        var workspace1 = null;
+        var workspace2 = null;
+
+        // Create the first Blockly workspace
+        function createWorkspace1() {
+            workspace1 = Blockly.inject('workspace1', {
+                toolbox: createToolbox(),
+                scrollbars: true
+            });
+
+            // Register event listeners or custom logic for workspace 1
+            // ...
+        }
+
+        // Create the second Blockly workspace
+        function createWorkspace2() {
+            workspace2 = Blockly.inject('workspace2', {
+                toolbox: createToolbox(),
+                scrollbars: true
+            });
+
+            // Register event listeners or custom logic for workspace 2
+            // ...
+        }
+
+        // Show the specified workspace and hide the others
+        function showWorkspace(workspaceNumber) {
+            if (workspaceNumber === 1) {
+                document.getElementById('workspace1').style.display = 'block';
+                document.getElementById('workspace2').style.display = 'none';
+
+                // Create workspace 1 if it doesn't exist
+                if (!workspace1) {
+                    createWorkspace1();
+                }
+            } else if (workspaceNumber === 2) {
+                document.getElementById('workspace1').style.display = 'none';
+                document.getElementById('workspace2').style.display = 'block';
+
+                // Create workspace 2 if it doesn't exist
+                if (!workspace2) {
+                    createWorkspace2();
+                }
+            }
+        }
+
+        // Define the toolbox XML
+        function createToolbox() {
+            var toolbox = `
+        <xml xmlns="https://developers.google.com/blockly/xml">
+          <category name="Logic" colour="210">
+            <block type="controls_if"></block>
+            <block type="logic_compare"></block>
+            <block type="logic_operation"></block>
+          </category>
+          <category name="Math" colour="230">
+            <block type="math_number"></block>
+            <block type="math_arithmetic"></block>
+          </category>
+        </xml>
+      `;
+
+            return toolbox;
+        }
+    </script>
+</body>
+
+</html>

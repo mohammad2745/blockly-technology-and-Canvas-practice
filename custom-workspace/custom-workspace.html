@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Blockly Scratch-like Example</title>
+    <script src="https://unpkg.com/blockly/blockly.min.js"></script>
+    <script src="https://unpkg.com/blockly/blocks_compressed.js"></script>
+</head>
+
+<body>
+    <div id="blocklyDiv" style="height: 480px; width: 600px;"></div>
+    <div id="stage" style="height: 400px; width: 600px; background-color: #ccc;">
+        <div id="layer1" class="layer" style="background-color: red;"></div>
+        <div id="layer2" class="layer" style="background-color: blue;"></div>
+        <div id="layer3" class="layer" style="background-color: green;"></div>
+    </div>
+    <button onclick="runCode()">Run</button>
+    <pre id="output"></pre>
+
+    <script src="custom-blocks.js"></script>
+    <script src="main.js"></script>
+</body>
+
+</html>

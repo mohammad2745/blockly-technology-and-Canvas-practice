@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Blockly Workspace Change</title>
+    <style>
+        .workspace {
+            width: 600px;
+            height: 500px;
+        }
+    </style>
+    <script src="https://unpkg.com/blockly/blockly.min.js"></script>
+</head>
+
+<body>
+    <div id="workspace" class="workspace"></div>
+    <button onclick="loadBlocks1()">Load Blocks 1</button>
+    <button onclick="loadBlocks2()">Load Blocks 2</button>
+
+    <script>
+        var workspace = Blockly.inject('workspace', {
+            toolbox: createToolbox(),
+            scrollbars: true
+        });
+
+        function createToolbox() {
+            var toolbox = `
+        <xml xmlns="https://developers.google.com/blockly/xml">
+          <category name="Blocks 1" colour="210">
+            <block type="controls_if"></block>
+            <block type="logic_compare"></block>
+            <block type="logic_operation"></block>
+          </category>
+          <category name="Blocks 2" colour="230">
+            <block type="math_number"></block>
+            <block type="math_arithmetic"></block>
+          </category>
+        </xml>
+      `;
+
+            return toolbox;
+        }
+
+        function loadBlocks1() {
+            var xml = `
+              <xml xmlns="https://developers.google.com/blockly/xml">
+                <block type="controls_if"></block>
+                <block type="logic_compare"></block>
+                <block type="logic_operation"></block>
+              </xml>
+            `;
+
+            Blockly.Xml.clearWorkspaceAndLoadFromXml(Blockly.Xml.textToDom(xml), workspace);
+        }
+
+        function loadBlocks2() {
+            var xml = `
+        <xml xmlns="https://developers.google.com/blockly/xml">
+          <block type="math_number"></block>
+          <block type="math_arithmetic"></block>
+        </xml>
+      `;
+
+            Blockly.Xml.clearWorkspaceAndLoadFromXml(Blockly.Xml.textToDom(xml), workspace);
+        }
+    </script>
+</body>
+
+</html>

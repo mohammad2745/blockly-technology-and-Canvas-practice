@@ -2,16 +2,80 @@
 <html>
 
 <head>
-    <title>Blockly Workspace</title>
+    <title>Blockly Workspace Change</title>
+    <style>
+        .workspace {
+            width: 400px;
+            height: 300px;
+        }
+    </style>
     <script src="https://unpkg.com/blockly/blockly.min.js"></script>
 </head>
 
 <body>
-    <h1>Blockly Workspace</h1>
+    <div id="workspaceContainer" class="workspace"></div>
+    <button id="changeWorkspaceBtn1">Change Workspace</button>
+    <button id="changeWorkspaceBtn">Change Workspace</button>
 
-    <div id="blocklyDiv" style="height: 480px; width: 600px;"></div>
+    <script>
+        var workspace = null;
 
-    <script src="split-workspace.js"></script>
+        // Initialize the default workspace
+        function initializeWorkspace() {
+            var toolbox = createToolbox();
+            workspace = Blockly.inject('workspaceContainer', {
+                toolbox: toolbox
+            });
+        }
+
+        // Create the toolbox XML
+        function createToolbox() {
+            var toolbox = `
+        <xml xmlns="https://developers.google.com/blockly/xml">
+          <category name="Logic" colour="210">
+            <block type="controls_if"></block>
+            <block type="logic_compare"></block>
+            <block type="logic_operation"></block>
+          </category>
+          <category name="Math" colour="230">
+            <block type="math_number"></block>
+            <block type="math_arithmetic"></block>
+          </category>
+        </xml>
+      `;
+
+            return toolbox;
+        }
+
+        // Create an alternate workspace content
+        function createAlternateWorkspace() {
+            var alternateWorkspaceXml = `
+        <xml xmlns="https://developers.google.com/blockly/xml">
+          <block type="text_print" x="50" y="50">
+            <value name="TEXT">
+              <shadow type="text">
+                <field name="TEXT">Hello, world!</field>
+              </shadow>
+            </value>
+          </block>
+        </xml>
+      `;
+
+            // Clear the existing workspace
+            // workspace.clear();
+
+            // Inject the alternate workspace content
+            Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(alternateWorkspaceXml), workspace);
+        }
+
+        // Handle the button click event
+        document.getElementById('changeWorkspaceBtn').addEventListener('click', function() {
+            createAlternateWorkspace();
+        });
+
+        // Initialize the default workspace
+        initializeWorkspace();
+    </script>
 </body>
 
 </html>
