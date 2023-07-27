@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Sprite Animation</title>
+
+    <script src="https://unpkg.com/konva@9.0.1/konva.min.js"></script>
+</head>
+
+<body>
+    <h2>Drawing Sprites Using Konva - Without Background</h2>
+    <div id="container"></div>
+    <script>
+        var canvasWidth = 900;
+        var canvasHeight = 700;
+        var imageX = 50;
+
+        const pixelRatio = window.devicePixelRatio || 1;
+        const canvasMovement = 1 * pixelRatio;
+
+        console.log('scale: ', pixelRatio, canvasMovement);
+
+        var stage = new Konva.Stage({
+            container: "container",
+            width: canvasWidth,
+            height: canvasHeight
+        });
+
+        // Define Sprite Image
+        var layer = new Konva.Layer();
+        var theSprite = new Image({
+            x: 50,
+            y: 50,
+            image: theSprite
+        });
+
+        // Background 
+        var imageObj = new Image();
+        imageObj.src = 'sprite-background.jpg';
+        imageObj.onload = function() {
+            var image = new Konva.Image({
+                x: 0,
+                y: 0,
+                image: imageObj,
+                width: 900,
+                height: 700
+            });
+
+            layer.add(image);
+            layer.draw();
+        };
+
+
+        theSprite.src = "sprite.png";
+
+        // Sprite Frame
+        var animations = {
+            standing: [234, 0, 234, 233],
+            walking: [0, 0, 234, 233,
+                234, 0, 234, 233,
+                468, 0, 234, 233,
+                702, 0, 234, 233,
+                936, 0, 234, 233,
+                1170, 0, 234, 233,
+            ],
+        };
+
+        // Frame Animation
+        theSprite.onload = function() {
+            var hero = new Konva.Sprite({
+                x: 50,
+                y: 450,
+                image: theSprite,
+                animation: 'walking',
+                animations: animations,
+                frameRate: 10,
+                // frameIndex: 0
+            });
+
+            const scaleX = 0.5;
+            const scaleY = 0.5;
+            hero.scale({
+                x: scaleX,
+                y: scaleY
+            });
+
+            layer.add(hero);
+            stage.add(layer);
+            hero.start();
+            layer.draw();
+
+            // Functionality When Sprite Animation is Stopped
+            let currentX = 50;
+            hero.on('frameIndexChange', () => {
+                const frameIndex = hero.frameIndex();
+                const frame = hero.animation()[frameIndex];
+
+                hero.x(currentX);
+                hero.y(450);
+                currentX += 10 + canvasMovement;
+
+                if (currentX > stage.width()) {
+                    currentX = -50;
+                    hero.x(currentX);
+                }
+            })
+        };
+    </script>
+</body>
+
+</html>

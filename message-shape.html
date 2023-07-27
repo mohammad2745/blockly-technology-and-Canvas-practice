@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Sprite Animation</title>
+
+    <script src="https://unpkg.com/konva@9.0.1/konva.min.js"></script>
+</head>
+
+<body>
+    <h2>Drawing Sprites Using Konva - Without Background</h2>
+    <div id="container"></div>
+    <script>
+        const stage = new Konva.Stage({
+            container: 'container',
+            width: window.innerWidth,
+            height: window.innerHeight,
+        });
+
+        const layer = new Konva.Layer();
+        stage.add(layer);
+
+        const messageBox = new Konva.Rect({
+            x: 100,
+            y: 100,
+            width: 200,
+            height: 100,
+            fill: 'lightblue',
+            stroke: 'black',
+            strokeWidth: 2,
+            cornerRadius: 10,
+        });
+
+        const messageText = new Konva.Text({
+            x: 110,
+            y: 110,
+            width: 180,
+            height: 80,
+            text: 'Hello, this is a message box!',
+            fontSize: 16,
+            fontFamily: 'Arial',
+            fill: 'black',
+            align: 'center',
+            verticalAlign: 'middle',
+            lineHeight: 1.2,
+        });
+
+        const arrow = new Konva.Line({
+            points: [150, 200, 170, 220, 190, 200],
+            fill: 'lightblue',
+            stroke: 'black',
+            strokeWidth: 2,
+            closed: true
+        });
+
+        layer.add(arrow);
+
+        layer.add(messageBox);
+        layer.add(messageText);
+        layer.draw();
+    </script>
+</body>
+
+</html>
